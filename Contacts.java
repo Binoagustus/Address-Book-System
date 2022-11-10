@@ -9,20 +9,6 @@ public class Contacts {
 	private int zip;
 	private long phoneNumber;
 	private String mail;
-	
-
-//	public Contacts(String firstName, String lastName, String address, String city, String state, int zip,
-//			long phoneNumber, String mail) {
-//
-//		this.firstName = firstName;
-//		this.lastName = lastName;
-//		this.address = address;
-//		this.city = city;
-//		this.state = state;
-//		this.zip = zip;
-//		this.phoneNumber = phoneNumber;
-//		this.mail = mail;
-//	}
 
 	public String getFirstName() {
 		return firstName;

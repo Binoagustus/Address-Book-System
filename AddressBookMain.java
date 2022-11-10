@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressBookMain {
+	
 	String firstName;
 	String lastName;
 	String address;
@@ -18,6 +19,7 @@ public class AddressBookMain {
 	ArrayList<Contacts> bookList = new ArrayList<Contacts>();
 
 	public void addContact() {
+		
 		Contacts contact = new Contacts();
 
 		System.out.println("Enter First Name ");
@@ -56,6 +58,7 @@ public class AddressBookMain {
 	}
 
 	public void displayContact() {
+		
 		for (int i = 0; i < bookList.size(); i++) {
 
 			System.out.println("Name : " + bookList.get(i).getFirstName() + " " + bookList.get(i).getLastName());
@@ -63,7 +66,7 @@ public class AddressBookMain {
 			System.out.println("City and State : " + bookList.get(i).getCity() + " " + bookList.get(i).getState());
 			System.out.println("Zip : " + bookList.get(i).getZip());
 			System.out.println("Phone Number : " + bookList.get(i).getPhoneNumber());
-			System.out.println("Mail id : " + bookList.get(i).getMail() + "\n\n");
+			System.out.println("Mail id : " + bookList.get(i).getMail() + "\n");
 		}
 	}
 
@@ -128,6 +131,24 @@ public class AddressBookMain {
 		}
 	}
 
+	public void deleteContact() {
+
+		System.out.println("Enter first name to delete the contact");
+		String personName = sc.next();
+
+		if (bookList.size() > 0) {
+			for (int i = 0; i < bookList.size(); i++) {
+				if (bookList.get(i).getFirstName().equalsIgnoreCase(personName)) {
+
+					bookList.remove(i);
+					System.out.println("Contact is deleted");
+					break;
+
+				}
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 
 		AddressBookMain mainObj = new AddressBookMain();
@@ -137,7 +158,7 @@ public class AddressBookMain {
 
 		while (run) {
 			System.out.println(
-					"\n Enter 1 to Add a Contact \n Enter 2 to Edit a Contact \n Enter 3 to Display all Contact \n Enter 4 to Exit \n");
+					"\n Enter 1 to Add a Contact \n Enter 2 to Edit a Contact \n Enter 3 to Display all Contact \n Enter 4 to Delete a Contact \n Enter 5 to Exit ");
 			int input = switchIn.nextInt();
 			switch (input) {
 
@@ -154,6 +175,10 @@ public class AddressBookMain {
 				break;
 
 			case 4:
+				mainObj.deleteContact();
+				break;
+
+			case 5:
 				run = false;
 				break;
 
