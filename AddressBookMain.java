@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressBookMain {
-	
+
 	String firstName;
 	String lastName;
 	String address;
@@ -18,8 +18,9 @@ public class AddressBookMain {
 	Scanner sc = new Scanner(System.in);
 	ArrayList<Contacts> bookList = new ArrayList<Contacts>();
 
+	//Add Multiple Contacts
 	public void addContact() {
-		
+
 		Contacts contact = new Contacts();
 
 		System.out.println("Enter First Name ");
@@ -57,19 +58,43 @@ public class AddressBookMain {
 		bookList.add(contact);
 	}
 
-	public void displayContact() {
-		
+	//Display all Contacts
+	public void displayallContact() {
+
 		for (int i = 0; i < bookList.size(); i++) {
 
 			System.out.println("Name : " + bookList.get(i).getFirstName() + " " + bookList.get(i).getLastName());
 			System.out.println("Address : " + bookList.get(i).getAddress());
-			System.out.println("City and State : " + bookList.get(i).getCity() + " " + bookList.get(i).getState());
+			System.out.println("City and State : " + bookList.get(i).getCity() + ", " + bookList.get(i).getState());
 			System.out.println("Zip : " + bookList.get(i).getZip());
 			System.out.println("Phone Number : " + bookList.get(i).getPhoneNumber());
 			System.out.println("Mail id : " + bookList.get(i).getMail() + "\n");
 		}
 	}
 
+	//Display a single contact
+	public void displayaContact() {
+		System.out.println("Enter first name to diplay the contact details");
+		String personName = sc.next();
+
+		if (bookList.size() > 0) {
+			for (int i = 0; i < bookList.size(); i++) {
+				if (bookList.get(i).getFirstName().equalsIgnoreCase(personName)) {
+
+					System.out.println("Name : " + bookList.get(i).getFirstName() + " " + bookList.get(i).getLastName());
+					System.out.println("Address : " + bookList.get(i).getAddress());
+					System.out.println("City and State : " + bookList.get(i).getCity() + ", " + bookList.get(i).getState());
+					System.out.println("Zip : " + bookList.get(i).getZip());
+					System.out.println("Phone Number : " + bookList.get(i).getPhoneNumber());
+					System.out.println("Mail id : " + bookList.get(i).getMail() + "\n");
+					break;
+
+				}
+			}
+		}
+	}
+
+	//Edit a contact using firstName as input from user
 	public void editContact() {
 
 		System.out.println("\n Enter the First Name of person to edit ");
@@ -131,6 +156,7 @@ public class AddressBookMain {
 		}
 	}
 
+	//Delete a contact by getting firstName as user input
 	public void deleteContact() {
 
 		System.out.println("Enter first name to delete the contact");
@@ -158,7 +184,7 @@ public class AddressBookMain {
 
 		while (run) {
 			System.out.println(
-					"\n Enter 1 to Add a Contact \n Enter 2 to Edit a Contact \n Enter 3 to Display all Contact \n Enter 4 to Delete a Contact \n Enter 5 to Exit ");
+					"\n Enter 1 to Add a Contact \n Enter 2 to Edit a Contact \n Enter 3 to Display all Contact \n Enter 4 to Display single Contact \n Enter 5 to Delete a Contact \n Enter 6 to Exit ");
 			int input = switchIn.nextInt();
 			switch (input) {
 
@@ -171,14 +197,18 @@ public class AddressBookMain {
 				break;
 
 			case 3:
-				mainObj.displayContact();
+				mainObj.displayallContact();
 				break;
 
 			case 4:
-				mainObj.deleteContact();
+				mainObj.displayaContact();
 				break;
 
 			case 5:
+				mainObj.deleteContact();
+				break;
+
+			case 6:
 				run = false;
 				break;
 
