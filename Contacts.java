@@ -8,7 +8,7 @@ public class Contacts {
 	private String city;
 	private String state;
 	private int zip;
-	private long phoneNumber;
+	private String phoneNumber;
 	private String mail;
 
 	public String getFirstName() {
@@ -59,11 +59,11 @@ public class Contacts {
 		this.zip = zip;
 	}
 
-	public long getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(long phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -77,8 +77,8 @@ public class Contacts {
 
 	@Override
 	public String toString() {
-		return " Name = " + firstName + " " + lastName + "\n address = " + address + "\n city = " + city + "\n state = "
-				+ state + "\n zip = " + zip + "\n phoneNumber = " + phoneNumber + "\n mail = " + mail;
+		return " Name = " + firstName + " " + lastName + "\n Address = " + address + "\n City = " + city + "\n State = "
+				+ state + "\n Zip = " + zip + "\n PhoneNumber = " + phoneNumber + "\n E-mail = " + mail;
 	}
 
 }
