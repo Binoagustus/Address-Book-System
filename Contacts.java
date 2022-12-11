@@ -10,7 +10,7 @@ public class Contacts {
 	private int zip;
 	private String phoneNumber;
 	private String mail;
-
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -78,7 +78,6 @@ public class Contacts {
 	@Override
 	public String toString() {
 		return " Name = " + firstName + " " + lastName + "\n Address = " + address + "\n City = " + city + "\n State = "
-				+ state + "\n Zip = " + zip + "\n PhoneNumber = " + phoneNumber + "\n E-mail = " + mail;
+				+ state + "\n Zip = " + zip + "\n PhoneNumber = " + phoneNumber + "\n E-mail = " + mail + "\n\n";
 	}
-
 }
