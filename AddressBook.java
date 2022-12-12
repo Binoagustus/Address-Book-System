@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class AddressBook {
+public class AddressBook implements AddressBookOperable {
 
 	String firstName;
 	String lastName;
@@ -19,56 +19,13 @@ public class AddressBook {
 	String mail;
 
 	Scanner sc = new Scanner(System.in);
-	Map<String, ArrayList<Contacts>> addressBooks = new HashMap<String, ArrayList<Contacts>>();
+	Map<String, ArrayList<Contact>> addressBooks = new HashMap<String, ArrayList<Contact>>();
 
-	public boolean isBookPresent(String bookName) {
+	@Override
+	public ArrayList<Contact> addContact(String bookName) {
 
-		boolean isBookPresent = false;
-
-		try {
-			isBookPresent = addressBooks.containsKey(bookName);
-
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-		return isBookPresent;
-	}
-
-	public void bookOperations() {
-
-		System.out.println("Enter the Book Name ");
-		String bookName = sc.next().toUpperCase();
-		ArrayList<Contacts> contactList = this.addContact(bookName);
-
-		if (addressBooks.equals(null)) {
-			contactList = this.addContact(bookName);
-		}
-
-		if (addressBooks.containsKey(bookName.toUpperCase())) {
-			try {
-				if (contactList == null) {
-					System.out.println("Contact of person is already present in book");
-
-				} else {
-					addressBooks.get(bookName).addAll(contactList);
-					System.out.println(" Added a contact to " + bookName);
-				}
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-			}
-
-		} else {
-			addressBooks.put(bookName, contactList);
-			System.out.println(" New book " + bookName + " is created");
-			System.out.println(" Contact is added to " + bookName);
-
-		}
-	}
-
-	public ArrayList<Contacts> addContact(String bookName) {
-
-		Contacts contact = new Contacts();
-		ArrayList<Contacts> contacts = new ArrayList<Contacts>();
+		Contact contact = new Contact();
+		ArrayList<Contact> contacts = new ArrayList<Contact>();
 
 		System.out.println("Enter First Name ");
 		firstName = sc.next();
@@ -129,9 +86,10 @@ public class AddressBook {
 	}
 
 	// Edit a contact using Name as input from user
+	@Override
 	public void editContact(String bookName) {
 
-		boolean isBookPresent = this.isBookPresent(bookName);
+		boolean isBookPresent = isBookPresent(bookName);
 
 		System.out.println("\n Enter the First Name and Last Name of person to edit ");
 		String personFirstName = sc.next();
@@ -140,7 +98,7 @@ public class AddressBook {
 		if (isBookPresent) {
 			boolean isFound = false;
 
-			List<Contacts> contacts = addressBooks.get(bookName).stream().collect(Collectors.toList());
+			List<Contact> contacts = addressBooks.get(bookName).stream().collect(Collectors.toList());
 
 			for (int i = 0; i < contacts.size(); i++) {
 				boolean check = ((contacts.get(i).getFirstName().equalsIgnoreCase(personFirstName))
@@ -203,24 +161,24 @@ public class AddressBook {
 	}
 
 	// Display all Contacts
+	@Override
 	public void displayBook(String bookName) {
-
 		addressBooks.keySet().stream().filter(book -> book.equals(bookName)).map(book -> addressBooks.get(bookName))
 				.forEach(System.out::println);
 
 	}
 
-	//
 	// Display a single contact
+	@Override
 	public void displayContact(String bookName) {
 		System.out.println("Enter first name and last name to diplay the contact details");
 		String personFirstName = sc.next();
 		String personLastName = sc.next();
 		boolean isFound = false;
-		boolean isBookPresent = this.isBookPresent(bookName);
+		boolean isBookPresent = isBookPresent(bookName);
 
 		if (isBookPresent) {
-			List<Contacts> contacts = addressBooks.get(bookName).stream().collect(Collectors.toList());
+			List<Contact> contacts = addressBooks.get(bookName).stream().collect(Collectors.toList());
 
 			for (int i = 0; i < contacts.size(); i++) {
 				if ((contacts.get(i).getFirstName().equalsIgnoreCase(personFirstName))
@@ -242,29 +200,33 @@ public class AddressBook {
 			}
 
 		} else {
-			System.out.println("Address Book is empty");
+			System.out.println("Address Book is not present");
 		}
 	}
 
 	// Delete a contact by getting firstName as user input
+	@Override
 	public void deleteContact(String bookName) {
 
 		System.out.println("Enter first name and last name to delete the contact");
 		String personFirstName = sc.next();
 		String personLastName = sc.next();
-		boolean isBookPresent = this.isBookPresent(bookName);
+		boolean isBookPresent = isBookPresent(bookName);
+		String userChoice;
 
 		if (isBookPresent) {
-			List<Contacts> contacts = addressBooks.get(bookName).stream().collect(Collectors.toList());
+			List<Contact> contacts = addressBooks.get(bookName).stream().collect(Collectors.toList());
 
 			for (int i = 0; i < contacts.size(); i++) {
 				if ((contacts.get(i).getFirstName().equalsIgnoreCase(personFirstName))
 						&& (contacts.get(i).getLastName().equalsIgnoreCase(personLastName))) {
 
-					contacts.remove(i);
-					System.out.println("Contact is deleted");
-					break;
-
+					do {
+						addressBooks.get(bookName).remove(i);
+						System.out.println("contact deleted");
+						System.out.println("Are you wish to delete other Address fields: Y?N");
+						userChoice = sc.next();
+					} while (userChoice.toUpperCase().equals("Y"));
 				}
 			}
 		} else {
@@ -272,11 +234,119 @@ public class AddressBook {
 		}
 	}
 
+	public boolean isBookPresent(String bookName) {
+
+		boolean isBookPresent = false;
+
+		try {
+			isBookPresent = addressBooks.containsKey(bookName);
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		return isBookPresent;
+	}
+
+	@Override
+	public void bookAddOperation() {
+
+		System.out.println("Enter the Book Name ");
+		String bookName = sc.next().toUpperCase();
+		ArrayList<Contact> contactList = this.addContact(bookName);
+
+		if (addressBooks.equals(null)) {
+			contactList = this.addContact(bookName);
+		}
+
+		if (addressBooks.containsKey(bookName.toUpperCase())) {
+			try {
+				if (contactList == null) {
+					System.out.println("Contact of person is already present in book");
+
+				} else {
+					addressBooks.get(bookName).addAll(contactList);
+					System.out.println(" Added a contact to " + bookName);
+				}
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
+
+		} else {
+			addressBooks.put(bookName, contactList);
+			System.out.println(" New book " + bookName + " is created");
+			System.out.println(" Contact is added to " + bookName);
+
+		}
+	}
+
+	@Override
+	public void searchOperations() {
+
+		boolean run = true;
+		while (run) {
+			System.out.println("1.Search By City \n2.Search By State \n3.Exit to Main Menu");
+			byte input = sc.nextByte();
+			String cityName, stateName;
+
+			switch (input) {
+			case 1:
+				System.out.println("Enter City");
+				cityName = sc.next();
+				this.searchPersonByCity(cityName);
+				break;
+
+			case 2:
+				System.out.println("Enter State");
+				stateName = sc.next();
+				this.searchPersonByState(stateName);
+				break;
+
+			case 3:
+				run = false;
+				break;
+			}
+		}
+	}
+
+	public void searchPersonByCity(String searchCity) {
+
+		System.out.println("Enter First Name");
+		firstName = sc.next();
+		System.out.println("Enter Last Name");
+		lastName = sc.next();
+
+		for (Map.Entry<String, ArrayList<Contact>> set : addressBooks.entrySet()) {
+			set.getValue().stream()
+					.filter(ctct -> ctct.getCity().equalsIgnoreCase(searchCity)
+							&& ctct.getFirstName().equalsIgnoreCase(firstName)
+							&& ctct.getLastName().equalsIgnoreCase(lastName))
+					.map(ctct -> ctct).forEach(System.out::println);
+		}
+	}
+
+	public void searchPersonByState(String searchState) {
+
+		System.out.println("Enter First Name");
+		firstName = sc.next();
+		System.out.println("Enter Last Name");
+		lastName = sc.next();
+
+		for (Map.Entry<String, ArrayList<Contact>> set : addressBooks.entrySet()) {
+			set.getValue().stream()
+					.filter(ctct -> ctct.getState().equalsIgnoreCase(searchState)
+							&& ctct.getFirstName().equalsIgnoreCase(firstName)
+							&& ctct.getLastName().equalsIgnoreCase(lastName))
+					.map(ctct -> ctct).forEach(System.out::println);			
+		}
+	}
+
+	@Override
 	public void showBooks() {
 
-		for (Map.Entry<String, ArrayList<Contacts>> set : addressBooks.entrySet()) {
+		for (Map.Entry<String, ArrayList<Contact>> set : addressBooks.entrySet()) {
 			System.out.println(set.getKey());
 			System.out.println(set.getValue());
 		}
 	}
+
 }

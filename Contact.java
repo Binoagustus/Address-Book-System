@@ -1,6 +1,6 @@
 package com.addressBook;
 
-public class Contacts {
+public class Contact {
 
 	private String firstName;
 	private String lastName;
