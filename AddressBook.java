@@ -19,13 +19,19 @@ public class AddressBook implements AddressBookOperable {
 	String mail;
 
 	Scanner sc = new Scanner(System.in);
-	Map<String, ArrayList<Contact>> addressBooks = new HashMap<String, ArrayList<Contact>>();
-
+	BookOperations operations = new BookOperations();
+	Map<String, List<Contact>> addressBooks = new HashMap<String, List<Contact>>();
+	List<Contact> groupList = new ArrayList<Contact>();
+	
+	public List<Contact> getGroupByList() {
+		return groupList;
+	}
+	
 	@Override
-	public ArrayList<Contact> addContact(String bookName) {
+	public List<Contact> addContact(String bookName) {
 
 		Contact contact = new Contact();
-		ArrayList<Contact> contacts = new ArrayList<Contact>();
+		List<Contact> contacts = new ArrayList<Contact>();
 
 		System.out.println("Enter First Name ");
 		firstName = sc.next();
@@ -33,13 +39,13 @@ public class AddressBook implements AddressBookOperable {
 		System.out.println("Enter Last Name ");
 		lastName = sc.next();
 
-		boolean isFoundMap = false;
+		boolean isDuplicateFound = false;
 		boolean isBookNotPresent = false;
 		isBookNotPresent = addressBooks.get(bookName) == null;
 
 		try {
 			if ((!(addressBooks.isEmpty())) && !(isBookNotPresent)) {
-				isFoundMap = addressBooks.get(bookName).stream()
+				isDuplicateFound = addressBooks.get(bookName).stream()
 						.anyMatch(cs -> cs.getFirstName().equalsIgnoreCase(firstName)
 								&& cs.getLastName().equalsIgnoreCase(lastName));
 			}
@@ -47,7 +53,7 @@ public class AddressBook implements AddressBookOperable {
 			e.printStackTrace();
 		}
 
-		if (isFoundMap == false) {
+		if (isDuplicateFound == false) {
 
 			contact.setFirstName(firstName);
 			contact.setLastName(lastName);
@@ -78,7 +84,7 @@ public class AddressBook implements AddressBookOperable {
 
 			contacts.add(contact);
 
-		} else if (isFoundMap == true) {
+		} else if (isDuplicateFound == true) {
 
 			return null;
 		}
@@ -252,12 +258,8 @@ public class AddressBook implements AddressBookOperable {
 
 		System.out.println("Enter the Book Name ");
 		String bookName = sc.next().toUpperCase();
-		ArrayList<Contact> contactList = this.addContact(bookName);
-
-		if (addressBooks.equals(null)) {
-			contactList = this.addContact(bookName);
-		}
-
+		List<Contact> contactList = this.addContact(bookName);
+		
 		if (addressBooks.containsKey(bookName.toUpperCase())) {
 			try {
 				if (contactList == null) {
@@ -275,8 +277,11 @@ public class AddressBook implements AddressBookOperable {
 			addressBooks.put(bookName, contactList);
 			System.out.println(" New book " + bookName + " is created");
 			System.out.println(" Contact is added to " + bookName);
-
 		}
+		
+		// Adding all values of addressBook to groupList and create maps needed
+		groupList.addAll(contactList);
+		operations.personByCategory(groupList);
 	}
 
 	@Override
@@ -292,13 +297,13 @@ public class AddressBook implements AddressBookOperable {
 			case 1:
 				System.out.println("Enter City");
 				cityName = sc.next();
-				this.searchPersonByCity(cityName);
+				operations.searchPersonByCity(cityName, addressBooks);
 				break;
 
 			case 2:
 				System.out.println("Enter State");
 				stateName = sc.next();
-				this.searchPersonByState(stateName);
+				operations.searchPersonByState(stateName, addressBooks);
 				break;
 
 			case 3:
@@ -308,45 +313,34 @@ public class AddressBook implements AddressBookOperable {
 		}
 	}
 
-	public void searchPersonByCity(String searchCity) {
-
-		System.out.println("Enter First Name");
-		firstName = sc.next();
-		System.out.println("Enter Last Name");
-		lastName = sc.next();
-
-		for (Map.Entry<String, ArrayList<Contact>> set : addressBooks.entrySet()) {
-			set.getValue().stream()
-					.filter(ctct -> ctct.getCity().equalsIgnoreCase(searchCity)
-							&& ctct.getFirstName().equalsIgnoreCase(firstName)
-							&& ctct.getLastName().equalsIgnoreCase(lastName))
-					.map(ctct -> ctct).forEach(System.out::println);
-		}
-	}
-
-	public void searchPersonByState(String searchState) {
-
-		System.out.println("Enter First Name");
-		firstName = sc.next();
-		System.out.println("Enter Last Name");
-		lastName = sc.next();
-
-		for (Map.Entry<String, ArrayList<Contact>> set : addressBooks.entrySet()) {
-			set.getValue().stream()
-					.filter(ctct -> ctct.getState().equalsIgnoreCase(searchState)
-							&& ctct.getFirstName().equalsIgnoreCase(firstName)
-							&& ctct.getLastName().equalsIgnoreCase(lastName))
-					.map(ctct -> ctct).forEach(System.out::println);			
-		}
-	}
-
 	@Override
 	public void showBooks() {
 
-		for (Map.Entry<String, ArrayList<Contact>> set : addressBooks.entrySet()) {
-			System.out.println(set.getKey());
-			System.out.println(set.getValue());
+		boolean run = true;
+		while(run) {
+			System.out.println("1.Show All AddressBooks \n2.Show Person By City \n3.Show Person By State \n4.Exit to main menu");
+			int input = sc.nextInt();
+			
+			switch(input) {
+			case 1:
+				for (Map.Entry<String, List<Contact>> set : addressBooks.entrySet()) {
+					System.out.println(set.getKey());
+					System.out.println(set.getValue());
+				}
+				break;
+				
+			case 2:
+				operations.showPersonByCity();
+				break;
+				
+			case 3:
+				operations.showPersonByState();
+				break;
+				
+			case 4:
+				run = false;
+				break;
+			}
 		}
 	}
-
 }

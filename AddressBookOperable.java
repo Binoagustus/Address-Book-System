@@ -1,12 +1,12 @@
 package com.addressBook;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface AddressBookOperable {
 
 	public abstract void bookAddOperation();
 	
-	public abstract ArrayList<Contact> addContact(String bookName);
+	public abstract List<Contact> addContact(String bookName);
 	
 	public abstract void editContact(String bookName);
 	
