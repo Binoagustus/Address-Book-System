@@ -25,7 +25,9 @@ public class AddressBookMain {
 			System.out.println("************Main Menu************");
 			System.out.println(" 1.Add a Contact \n 2.Edit a Contact "
 					+ "\n 3.Display a Book \n 4.Display single Contact "
-					+ "\n 5.Delete a Contact \n 6.Search Person " + "\n 7.Display Books present \n 8.Exit");
+					+ "\n 5.Delete a Contact \n 6.Search Person " 
+					+ "\n 7.Display Books present \n 8.Count Contacts"
+					+ "\n 9.Exit");
 
 			try {
 				int input = sc.nextInt();
@@ -67,6 +69,10 @@ public class AddressBookMain {
 					break;
 
 				case 8:
+					bookObj.countContactsByCategory();
+					break;
+					
+				case 9:
 					run = false;
 					break;
 

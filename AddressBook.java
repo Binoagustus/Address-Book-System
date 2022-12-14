@@ -318,6 +318,7 @@ public class AddressBook implements AddressBookOperable {
 
 		boolean run = true;
 		while(run) {
+			System.out.println("*******Contacts View By Category******");
 			System.out.println("1.Show All AddressBooks \n2.Show Person By City \n3.Show Person By State \n4.Exit to main menu");
 			int input = sc.nextInt();
 			
@@ -338,6 +339,30 @@ public class AddressBook implements AddressBookOperable {
 				break;
 				
 			case 4:
+				run = false;
+				break;
+			}
+		}
+	}
+	
+	public void countContactsByCategory() {
+		
+		boolean run = true;
+		while(run) {
+			System.out.println("********Contacts Count By Category********");
+			System.out.println("1.Count By City \n2.Count By State \n3.Exit");
+			int input = sc.nextInt();
+			
+			switch(input) {
+			case 1:
+				operations.countByCity();
+				break;
+				
+			case 2:
+				operations.countByState();
+				break;
+				
+			case 3:
 				run = false;
 				break;
 			}
