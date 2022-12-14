@@ -21,7 +21,9 @@ public class AddressBookMain {
 		String bookName;
 		
 		while (run) {
-			System.out.println("\n 1.Add a Contact \n 2.Edit a Contact "
+			
+			System.out.println("************Main Menu************");
+			System.out.println(" 1.Add a Contact \n 2.Edit a Contact "
 					+ "\n 3.Display a Book \n 4.Display single Contact "
 					+ "\n 5.Delete a Contact \n 6.Search Person " + "\n 7.Display Books present \n 8.Exit");
 
