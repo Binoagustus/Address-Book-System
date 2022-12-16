@@ -19,4 +19,8 @@ public interface AddressBookOperable {
 	public abstract void searchOperations();
 	
 	public abstract void showBooks();
+
+	public abstract void countContactsByCategory();
+	
+	public abstract void sortContactsByCategory();
 }
