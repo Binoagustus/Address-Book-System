@@ -3,7 +3,9 @@ package com.addressBook;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BookOperations {
@@ -42,7 +44,7 @@ public class BookOperations {
 		}
 	}
 
-	public void personByCategory(List<Contact> groupList) {
+	public void createpersonByCategory(List<Contact> groupList) {
 
 		personByCity = groupList.stream().collect(Collectors.groupingBy(Contact::getCity));
 
@@ -73,6 +75,15 @@ public class BookOperations {
 		for (Map.Entry<String, List<Contact>> set : (personByState).entrySet()) {
 			System.out.println(set.getKey());
 			System.out.println(set.getValue());
+		}
+	}
+
+	public void sortByName(Map<String, List<Contact>> addressBook) {
+		
+		for (Map.Entry<String, List<Contact>> set : (addressBook).entrySet()) {
+			set.getValue().stream().sorted((o1, o2) -> o1.getFirstName().compareTo(o2.getFirstName()));
+			Set<Entry<String, List<Contact>>> book = addressBook.entrySet();
+			System.out.println(book);
 		}
 	}
 }

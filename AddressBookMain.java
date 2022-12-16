@@ -27,7 +27,7 @@ public class AddressBookMain {
 					+ "\n 3.Display a Book \n 4.Display single Contact "
 					+ "\n 5.Delete a Contact \n 6.Search Person " 
 					+ "\n 7.Display Books present \n 8.Count Contacts"
-					+ "\n 9.Exit");
+					+ "\n 9.Sort Person \n 10.Exit");
 
 			try {
 				int input = sc.nextInt();
@@ -73,6 +73,10 @@ public class AddressBookMain {
 					break;
 					
 				case 9:
+					bookObj.sortContactsByCategory();
+					break;
+					
+				case 10:
 					run = false;
 					break;
 

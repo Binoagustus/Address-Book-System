@@ -23,10 +23,6 @@ public class AddressBook implements AddressBookOperable {
 	Map<String, List<Contact>> addressBooks = new HashMap<String, List<Contact>>();
 	List<Contact> groupList = new ArrayList<Contact>();
 	
-	public List<Contact> getGroupByList() {
-		return groupList;
-	}
-	
 	@Override
 	public List<Contact> addContact(String bookName) {
 
@@ -281,7 +277,7 @@ public class AddressBook implements AddressBookOperable {
 		
 		// Adding all values of addressBook to groupList and create maps needed
 		groupList.addAll(contactList);
-		operations.personByCategory(groupList);
+		operations.createpersonByCategory(groupList);
 	}
 
 	@Override
@@ -345,6 +341,7 @@ public class AddressBook implements AddressBookOperable {
 		}
 	}
 	
+	@Override
 	public void countContactsByCategory() {
 		
 		boolean run = true;
@@ -363,6 +360,27 @@ public class AddressBook implements AddressBookOperable {
 				break;
 				
 			case 3:
+				run = false;
+				break;
+			}
+		}
+	}
+	
+	@Override
+	public void sortContactsByCategory() {
+	
+		boolean run = true;
+		while(run) {
+			System.out.println("********Sort Contacts By Category********");
+			System.out.println("1.Sort By Name \n2.Exit ");
+			int input = sc.nextInt();
+			
+			switch(input) {
+			case 1:
+				operations.sortByName(addressBooks);
+				break;
+				
+			case 2:
 				run = false;
 				break;
 			}
