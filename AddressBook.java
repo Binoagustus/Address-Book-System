@@ -22,7 +22,7 @@ public class AddressBook implements AddressBookOperable {
 	BookOperations operations = new BookOperations();
 	Map<String, List<Contact>> addressBooks = new HashMap<String, List<Contact>>();
 	List<Contact> groupList = new ArrayList<Contact>();
-	
+
 	@Override
 	public List<Contact> addContact(String bookName) {
 
@@ -66,9 +66,17 @@ public class AddressBook implements AddressBookOperable {
 			state = sc.next();
 			contact.setState(state);
 
-			System.out.println("Enter Zip ");
-			zip = sc.nextInt();
-			contact.setZip(zip);
+			// loop is executed until user inputs a integer value
+			while (true) {
+				try {
+					System.out.println("Enter Zip ");
+					zip = Integer.parseInt(sc.next());
+					contact.setZip(zip);
+					break;
+				} catch (NumberFormatException e) {
+					System.out.println("!Enter a number!\n");
+				}
+			}
 
 			System.out.println("Enter Phone Number ");
 			phoneNumber = sc.next();
@@ -255,7 +263,7 @@ public class AddressBook implements AddressBookOperable {
 		System.out.println("Enter the Book Name ");
 		String bookName = sc.next().toUpperCase();
 		List<Contact> contactList = this.addContact(bookName);
-		
+
 		if (addressBooks.containsKey(bookName.toUpperCase())) {
 			try {
 				if (contactList == null) {
@@ -274,10 +282,16 @@ public class AddressBook implements AddressBookOperable {
 			System.out.println(" New book " + bookName + " is created");
 			System.out.println(" Contact is added to " + bookName);
 		}
-		
+
 		// Adding all values of addressBook to groupList and create maps needed
-		groupList.addAll(contactList);
-		operations.createpersonByCategory(groupList);
+		// Provided if condition to avoid null pointer exception 
+		if(contactList == null) {
+			System.out.println();
+		} else {
+			groupList.addAll(contactList);
+			operations.createpersonByCategory(groupList);
+
+		}
 	}
 
 	@Override
@@ -313,74 +327,87 @@ public class AddressBook implements AddressBookOperable {
 	public void showBooks() {
 
 		boolean run = true;
-		while(run) {
+		while (run) {
 			System.out.println("*******Contacts View By Category******");
-			System.out.println("1.Show All AddressBooks \n2.Show Person By City \n3.Show Person By State \n4.Exit to main menu");
+			System.out.println(
+					"1.Show All AddressBooks \n2.Show Person By City \n3.Show Person By State \n4.Exit to main menu");
 			int input = sc.nextInt();
-			
-			switch(input) {
+
+			switch (input) {
 			case 1:
 				for (Map.Entry<String, List<Contact>> set : addressBooks.entrySet()) {
 					System.out.println(set.getKey());
 					System.out.println(set.getValue());
 				}
 				break;
-				
+
 			case 2:
 				operations.showPersonByCity();
 				break;
-				
+
 			case 3:
 				operations.showPersonByState();
 				break;
-				
+
 			case 4:
 				run = false;
 				break;
 			}
 		}
 	}
-	
+
 	@Override
 	public void countContactsByCategory() {
-		
+
 		boolean run = true;
-		while(run) {
+		while (run) {
 			System.out.println("********Contacts Count By Category********");
 			System.out.println("1.Count By City \n2.Count By State \n3.Exit");
 			int input = sc.nextInt();
-			
-			switch(input) {
+
+			switch (input) {
 			case 1:
 				operations.countByCity();
 				break;
-				
+
 			case 2:
 				operations.countByState();
 				break;
-				
+
 			case 3:
 				run = false;
 				break;
 			}
 		}
 	}
-	
+
 	@Override
 	public void sortContactsByCategory() {
-	
+
 		boolean run = true;
-		while(run) {
+		while (run) {
 			System.out.println("********Sort Contacts By Category********");
-			System.out.println("1.Sort By Name \n2.Exit ");
+			System.out.println("1.Sort By Name \n2.Sort By State " + "\n3.Sort By City \n4.Sort By Zip \n5.Exit ");
 			int input = sc.nextInt();
-			
-			switch(input) {
+
+			switch (input) {
 			case 1:
 				operations.sortByName(addressBooks);
 				break;
-				
+
 			case 2:
+				operations.sortByState(addressBooks);
+				break;
+
+			case 3:
+				operations.sortByCity(addressBooks);
+				break;
+
+			case 4:
+				operations.sortByZip(addressBooks);
+				break;
+
+			case 5:
 				run = false;
 				break;
 			}
