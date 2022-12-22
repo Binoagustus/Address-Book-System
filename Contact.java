@@ -10,7 +10,7 @@ public class Contact {
 	private int zip;
 	private String phoneNumber;
 	private String mail;
-	
+
 	public String getFirstName() {
 		return firstName;
 	}

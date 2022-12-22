@@ -1,12 +1,12 @@
 package com.addressBook;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BookOperations {
 
@@ -82,8 +82,35 @@ public class BookOperations {
 		
 		for (Map.Entry<String, List<Contact>> set : (addressBook).entrySet()) {
 			set.getValue().stream().sorted((o1, o2) -> o1.getFirstName().compareTo(o2.getFirstName()));
-			Set<Entry<String, List<Contact>>> book = addressBook.entrySet();
-			System.out.println(book);
+			System.out.println(set.getKey());
+			System.out.println(set.getValue());
+		}
+	}
+	
+	public void sortByState(Map<String, List<Contact>> addressBook) {
+		
+		for (Map.Entry<String, List<Contact>> set : (addressBook).entrySet()) {
+			set.getValue().stream().sorted((o1, o2) -> o1.getState().compareTo(o2.getState()));
+			System.out.println(set.getKey());
+			System.out.println(set.getValue());
+		}
+	}
+
+	public void sortByCity(Map<String, List<Contact>> addressBook) {
+		
+		for (Map.Entry<String, List<Contact>> set : (addressBook).entrySet()) {
+			set.getValue().stream().sorted((o1, o2) -> o1.getCity().compareTo(o2.getCity()));
+			System.out.println(set.getKey());
+			System.out.println(set.getValue());
+		}
+	}
+
+	public void sortByZip(Map<String, List<Contact>> addressBook) {
+		
+		for (Map.Entry<String, List<Contact>> set : (addressBook).entrySet()) {
+			Stream<Contact> tempBookContacts = set.getValue().stream().sorted(Comparator.comparingInt(Contact::getZip));
+			System.out.println(set.getKey());
+			tempBookContacts.forEach(System.out::println);
 		}
 	}
 }
