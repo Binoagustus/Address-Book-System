@@ -27,7 +27,7 @@ public class AddressBookMain {
 					+ "\n 3.Display a Book \n 4.Display single Contact "
 					+ "\n 5.Delete a Contact \n 6.Search Person " 
 					+ "\n 7.Display Books present \n 8.Count Contacts"
-					+ "\n 9.Sort Person \n 10.Exit");
+					+ "\n 9.Sort Person \n 10.Write To File \n 11.Exit");
 
 			try {
 				int input = sc.nextInt();
@@ -77,9 +77,12 @@ public class AddressBookMain {
 					break;
 					
 				case 10:
+					bookObj.writeToFile();
+					break;
+					
+				case 11:
 					run = false;
 					break;
-
 				}
 
 			} catch (InputMismatchException e) {

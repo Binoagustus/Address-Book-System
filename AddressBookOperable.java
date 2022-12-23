@@ -23,4 +23,6 @@ public interface AddressBookOperable {
 	public abstract void countContactsByCategory();
 	
 	public abstract void sortContactsByCategory();
+	
+	public abstract void writeToFile();
 }
