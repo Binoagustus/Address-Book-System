@@ -1,5 +1,9 @@
 package com.addressBook;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +24,7 @@ public class AddressBook implements AddressBookOperable {
 
 	Scanner sc = new Scanner(System.in);
 	BookOperations operations = new BookOperations();
+	final static String outputFilePath = "E:/FileHandling/addressBook.txt";
 	Map<String, List<Contact>> addressBooks = new HashMap<String, List<Contact>>();
 	List<Contact> groupList = new ArrayList<Contact>();
 
@@ -410,6 +415,30 @@ public class AddressBook implements AddressBookOperable {
 			case 5:
 				run = false;
 				break;
+			}
+		}
+	}
+	
+	public void writeToFile() {
+		File book = new File(outputFilePath);
+		BufferedWriter writer = null;
+
+		try {
+			writer = new BufferedWriter(new FileWriter(book));
+
+			for (Map.Entry<String, List<Contact>> entry : addressBooks.entrySet()) {
+				writer.write(entry.getKey() + " : " + entry.getValue());
+				writer.newLine();
+			}
+			writer.flush();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
